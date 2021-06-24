@@ -1,0 +1,14 @@
+{
+  "name": "eb-sample-cft",
+  "version": "1.0.0",
+  "description": "Beanstalk sample application using CloudFormation template",
+  "main": "app.js",
+  "repository": "https://github.com/rafaelliu/eb-sample-cft",
+  "dependencies": {
+    "aws-sdk": "^2.932.0",
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}
