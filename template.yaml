@@ -219,7 +219,7 @@ Resources:
       SecretId: !Ref MyRDSInstanceRotationSecret
       HostedRotationLambda:
         RotationType: MySQLSingleUser
-        RotationLambdaName: !Sub SecretsManagerRotation-${AWS::StackName}
+        RotationLambdaName: !Sub SecretsManagerRotation
         VpcSecurityGroupIds: !Ref SGData
         VpcSubnetIds: !Sub '${SubnetDataA},${SubnetDataB}'
       RotationRules:

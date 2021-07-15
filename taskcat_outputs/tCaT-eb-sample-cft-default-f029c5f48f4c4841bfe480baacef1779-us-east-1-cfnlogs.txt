@@ -1,0 +1,83 @@
+-----------------------------------------------------------------------------
+Region: us-east-1
+StackName: tCaT-eb-sample-cft-default-f029c5f48f4c4841bfe480baacef1779
+*****************************************************************************
+ResourceStatusReason:  
+Stack launch was successful
+*****************************************************************************
+*****************************************************************************
+Events:  
+TimeStamp                         ResourceStatus      ResourceType                                 LogicalResourceId                                            ResourceStatusReason
+--------------------------------  ------------------  -------------------------------------------  -----------------------------------------------------------  ---------------------------
+2021-07-15 20:47:47.482000+00:00  CREATE_COMPLETE     AWS::CloudFormation::Stack                   tCaT-eb-sample-cft-default-f029c5f48f4c4841bfe480baacef1779
+2021-07-15 20:47:45.401000+00:00  CREATE_COMPLETE     AWS::SecretsManager::RotationSchedule        MySecretRotationSchedule
+2021-07-15 20:47:45.187000+00:00  CREATE_IN_PROGRESS  AWS::SecretsManager::RotationSchedule        MySecretRotationSchedule                                     Resource creation Initiated
+2021-07-15 20:47:43.596000+00:00  CREATE_IN_PROGRESS  AWS::SecretsManager::RotationSchedule        MySecretRotationSchedule
+2021-07-15 20:47:41.766000+00:00  CREATE_COMPLETE     AWS::SecretsManager::SecretTargetAttachment  SecretRDSInstanceAttachment
+2021-07-15 20:47:41.620000+00:00  CREATE_IN_PROGRESS  AWS::SecretsManager::SecretTargetAttachment  SecretRDSInstanceAttachment                                  Resource creation Initiated
+2021-07-15 20:47:39.751000+00:00  CREATE_IN_PROGRESS  AWS::SecretsManager::SecretTargetAttachment  SecretRDSInstanceAttachment
+2021-07-15 20:47:37.603000+00:00  CREATE_COMPLETE     AWS::RDS::DBInstance                         MyDBInstance
+2021-07-15 20:43:22.647000+00:00  CREATE_COMPLETE     AWS::ElasticBeanstalk::Environment           SampleEnvironment
+2021-07-15 20:39:49.576000+00:00  CREATE_IN_PROGRESS  AWS::ElasticBeanstalk::Environment           SampleEnvironment                                            Resource creation Initiated
+2021-07-15 20:39:46.985000+00:00  CREATE_IN_PROGRESS  AWS::ElasticBeanstalk::Environment           SampleEnvironment
+2021-07-15 20:39:44.502000+00:00  CREATE_COMPLETE     AWS::IAM::InstanceProfile                    WebServerInstanceProfile
+2021-07-15 20:38:56.798000+00:00  CREATE_COMPLETE     AWS::CloudFormation::Stack                   MySecretRotationScheduleHostedRotationLambda
+2021-07-15 20:37:43.675000+00:00  CREATE_IN_PROGRESS  AWS::IAM::InstanceProfile                    WebServerInstanceProfile                                     Resource creation Initiated
+2021-07-15 20:37:43.349000+00:00  CREATE_IN_PROGRESS  AWS::IAM::InstanceProfile                    WebServerInstanceProfile
+2021-07-15 20:37:42.304000+00:00  CREATE_COMPLETE     AWS::S3::Bucket                              SampleBucket
+2021-07-15 20:37:40.493000+00:00  CREATE_COMPLETE     AWS::IAM::Role                               WebServerRole
+2021-07-15 20:37:26.653000+00:00  CREATE_IN_PROGRESS  AWS::RDS::DBInstance                         MyDBInstance                                                 Resource creation Initiated
+2021-07-15 20:37:25.885000+00:00  CREATE_IN_PROGRESS  AWS::IAM::Role                               WebServerRole                                                Resource creation Initiated
+2021-07-15 20:37:25.504000+00:00  CREATE_IN_PROGRESS  AWS::IAM::Role                               WebServerRole
+2021-07-15 20:37:25.154000+00:00  CREATE_IN_PROGRESS  AWS::RDS::DBInstance                         MyDBInstance
+2021-07-15 20:37:25.095000+00:00  CREATE_COMPLETE     AWS::ElasticBeanstalk::ApplicationVersion    SampleApplicationVersion
+2021-07-15 20:37:24.934000+00:00  CREATE_IN_PROGRESS  AWS::ElasticBeanstalk::ApplicationVersion    SampleApplicationVersion                                     Resource creation Initiated
+2021-07-15 20:37:24.130000+00:00  CREATE_IN_PROGRESS  AWS::ElasticBeanstalk::ApplicationVersion    SampleApplicationVersion
+2021-07-15 20:37:23.087000+00:00  CREATE_COMPLETE     AWS::SecretsManager::Secret                  MyRDSInstanceRotationSecret
+2021-07-15 20:37:22.982000+00:00  CREATE_COMPLETE     AWS::RDS::DBSubnetGroup                      MyDBSubnetGroup
+2021-07-15 20:37:22.916000+00:00  CREATE_IN_PROGRESS  AWS::SecretsManager::Secret                  MyRDSInstanceRotationSecret                                  Resource creation Initiated
+2021-07-15 20:37:22.125000+00:00  CREATE_COMPLETE     AWS::ElasticBeanstalk::Application           SampleApplication
+2021-07-15 20:37:22.002000+00:00  CREATE_IN_PROGRESS  AWS::CloudFormation::Stack                   MySecretRotationScheduleHostedRotationLambda                 Resource creation Initiated
+2021-07-15 20:37:21.921000+00:00  CREATE_IN_PROGRESS  AWS::RDS::DBSubnetGroup                      MyDBSubnetGroup                                              Resource creation Initiated
+2021-07-15 20:37:21.750000+00:00  CREATE_IN_PROGRESS  AWS::ElasticBeanstalk::Application           SampleApplication                                            Resource creation Initiated
+2021-07-15 20:37:21.228000+00:00  CREATE_IN_PROGRESS  AWS::S3::Bucket                              SampleBucket                                                 Resource creation Initiated
+2021-07-15 20:37:21.070000+00:00  CREATE_IN_PROGRESS  AWS::ElasticBeanstalk::Application           SampleApplication
+2021-07-15 20:37:21.030000+00:00  CREATE_IN_PROGRESS  AWS::CloudFormation::Stack                   MySecretRotationScheduleHostedRotationLambda
+2021-07-15 20:37:20.936000+00:00  CREATE_IN_PROGRESS  AWS::RDS::DBSubnetGroup                      MyDBSubnetGroup
+2021-07-15 20:37:20.894000+00:00  CREATE_IN_PROGRESS  AWS::SecretsManager::Secret                  MyRDSInstanceRotationSecret
+2021-07-15 20:37:20.619000+00:00  CREATE_IN_PROGRESS  AWS::S3::Bucket                              SampleBucket
+2021-07-15 20:37:15.959000+00:00  CREATE_IN_PROGRESS  AWS::CloudFormation::Stack                   tCaT-eb-sample-cft-default-f029c5f48f4c4841bfe480baacef1779  Transformation succeeded
+2021-07-15 20:37:10.210000+00:00  CREATE_IN_PROGRESS  AWS::CloudFormation::Stack                   tCaT-eb-sample-cft-default-f029c5f48f4c4841bfe480baacef1779  User Initiated
+*****************************************************************************
+-----------------------------------------------------------------------------
+Tested on: Thursday, 15. July 2021 01:48PM
+-----------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+Region: us-east-1
+StackName: tCaT-eb-sample-cft-default-f029c5f48f4c4841-MySecretRotationScheduleHostedRotationLamb-1LRXWIP4PNK8Z
+*****************************************************************************
+ResourceStatusReason:  
+Stack launch was successful
+*****************************************************************************
+*****************************************************************************
+Events:  
+TimeStamp                         ResourceStatus      ResourceType                LogicalResourceId                                                                                     ResourceStatusReason
+--------------------------------  ------------------  --------------------------  ----------------------------------------------------------------------------------------------------  ---------------------------
+2021-07-15 20:38:39.882000+00:00  CREATE_COMPLETE     AWS::CloudFormation::Stack  tCaT-eb-sample-cft-default-f029c5f48f4c4841-MySecretRotationScheduleHostedRotationLamb-1LRXWIP4PNK8Z
+2021-07-15 20:38:37.418000+00:00  CREATE_COMPLETE     AWS::Lambda::Permission     LambdaPermission
+2021-07-15 20:38:27.065000+00:00  CREATE_IN_PROGRESS  AWS::Lambda::Permission     LambdaPermission                                                                                      Resource creation Initiated
+2021-07-15 20:38:26.667000+00:00  CREATE_IN_PROGRESS  AWS::Lambda::Permission     LambdaPermission
+2021-07-15 20:38:22.881000+00:00  CREATE_COMPLETE     AWS::Lambda::Function       SecretsManagerRDSMySQLRotationSingleUser
+2021-07-15 20:37:50.530000+00:00  CREATE_IN_PROGRESS  AWS::Lambda::Function       SecretsManagerRDSMySQLRotationSingleUser                                                              Resource creation Initiated
+2021-07-15 20:37:48.813000+00:00  CREATE_IN_PROGRESS  AWS::Lambda::Function       SecretsManagerRDSMySQLRotationSingleUser
+2021-07-15 20:37:46.641000+00:00  CREATE_COMPLETE     AWS::IAM::Role              SecretsManagerRDSMySQLRotationSingleUserRole
+2021-07-15 20:37:31.192000+00:00  CREATE_IN_PROGRESS  AWS::IAM::Role              SecretsManagerRDSMySQLRotationSingleUserRole                                                          Resource creation Initiated
+2021-07-15 20:37:30.779000+00:00  CREATE_IN_PROGRESS  AWS::IAM::Role              SecretsManagerRDSMySQLRotationSingleUserRole
+2021-07-15 20:37:26.433000+00:00  CREATE_IN_PROGRESS  AWS::CloudFormation::Stack  tCaT-eb-sample-cft-default-f029c5f48f4c4841-MySecretRotationScheduleHostedRotationLamb-1LRXWIP4PNK8Z  Transformation succeeded
+2021-07-15 20:37:21.894000+00:00  CREATE_IN_PROGRESS  AWS::CloudFormation::Stack  tCaT-eb-sample-cft-default-f029c5f48f4c4841-MySecretRotationScheduleHostedRotationLamb-1LRXWIP4PNK8Z  User Initiated
+*****************************************************************************
+-----------------------------------------------------------------------------
+Tested on: Thursday, 15. July 2021 01:48PM
+-----------------------------------------------------------------------------
+

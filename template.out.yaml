@@ -1,0 +1,199 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform:
+- AWS::Serverless-2016-10-31
+- AWS::SecretsManager-2020-07-23
+Description: Sample SAM Template for eb-example
+Parameters:
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+  SGPublic:
+    Type: AWS::EC2::SecurityGroup::Id
+  SubnetPublicA:
+    Type: AWS::EC2::Subnet::Id
+  SubnetPublicB:
+    Type: AWS::EC2::Subnet::Id
+  SGApp:
+    Type: AWS::EC2::SecurityGroup::Id
+  SubnetAppA:
+    Type: AWS::EC2::Subnet::Id
+  SubnetAppB:
+    Type: AWS::EC2::Subnet::Id
+  SGData:
+    Type: AWS::EC2::SecurityGroup::Id
+  SubnetDataA:
+    Type: AWS::EC2::Subnet::Id
+  SubnetDataB:
+    Type: AWS::EC2::Subnet::Id
+Resources:
+  SampleApplication:
+    Type: AWS::ElasticBeanstalk::Application
+    Properties:
+      Description: AWS Elastic Beanstalk Sample Node.js Application
+  SampleApplicationVersion:
+    Type: AWS::ElasticBeanstalk::ApplicationVersion
+    Properties:
+      Description: Version 1.0
+      ApplicationName:
+        Ref: SampleApplication
+      SourceBundle:
+        S3Bucket: aws-sam-cli-managed-default-samclisourcebucket-15ca9q09lpq5
+        S3Key: cd0f493774da8f71c55aac815638af1c
+  SampleEnvironment:
+    Type: AWS::ElasticBeanstalk::Environment
+    Properties:
+      ApplicationName:
+        Ref: SampleApplication
+      VersionLabel:
+        Ref: SampleApplicationVersion
+      Description: Elastic Beanstalk sample
+      SolutionStackName: 64bit Amazon Linux 2 v5.4.1 running Node.js 14
+      Tier:
+        Name: WebServer
+        Type: Standard
+        Version: ' '
+      OptionSettings:
+      - Namespace: aws:elasticbeanstalk:environment
+        OptionName: LoadBalancerType
+        Value: application
+      - Namespace: aws:elasticbeanstalk:application:environment
+        OptionName: DB_SECRET_ARN
+        Value:
+          Ref: MyRDSInstanceRotationSecret
+      - Namespace: aws:elasticbeanstalk:application:environment
+        OptionName: S3_BUCKET_NAME
+        Value:
+          Ref: SampleBucket
+      - Namespace: aws:ec2:vpc
+        OptionName: Subnets
+        Value:
+          Fn::Sub: ${SubnetAppA},${SubnetAppB}
+      - Namespace: aws:autoscaling:launchconfiguration
+        OptionName: IamInstanceProfile
+        Value:
+          Ref: WebServerInstanceProfile
+      - Namespace: aws:autoscaling:launchconfiguration
+        OptionName: InstanceType
+        Value: t2.medium
+      - Namespace: aws:autoscaling:launchconfiguration
+        OptionName: SecurityGroups
+        Value:
+          Ref: SGApp
+      - Namespace: aws:ec2:vpc
+        OptionName: AssociatePublicIpAddress
+        Value: 'true'
+      - Namespace: aws:ec2:vpc
+        OptionName: VPCId
+        Value:
+          Ref: VPCId
+      - Namespace: aws:elasticbeanstalk:environment
+        OptionName: EnvironmentType
+        Value: LoadBalanced
+      - Namespace: aws:ec2:vpc
+        OptionName: ELBSubnets
+        Value:
+          Fn::Sub: ${SubnetPublicA},${SubnetPublicB}
+      - Namespace: aws:elbv2:loadbalancer
+        OptionName: SecurityGroups
+        Value:
+          Ref: SGPublic
+      - Namespace: aws:elbv2:loadbalancer
+        OptionName: ManagedSecurityGroup
+        Value:
+          Ref: SGPublic
+  WebServerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: ec2.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+      - PolicyName: SecretsManagerRead
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - secretsmanager:GetSecretValue
+            Resource:
+              Ref: MyRDSInstanceRotationSecret
+  WebServerInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+      - Ref: WebServerRole
+  MyRDSInstanceRotationSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description: This is my rds instance secret
+      GenerateSecretString:
+        SecretStringTemplate: '{"username": "admin"}'
+        GenerateStringKey: password
+        PasswordLength: 16
+        ExcludeCharacters: '"@/\'
+  MyDBInstance:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Snapshot
+    UpdateReplacePolicy: Retain
+    Properties:
+      AllocatedStorage: '20'
+      DBInstanceClass: db.t2.micro
+      Engine: mysql
+      DBSubnetGroupName:
+        Ref: MyDBSubnetGroup
+      MasterUsername:
+        Fn::Sub: '{{resolve:secretsmanager:${MyRDSInstanceRotationSecret}::username}}'
+      MasterUserPassword:
+        Fn::Sub: '{{resolve:secretsmanager:${MyRDSInstanceRotationSecret}::password}}'
+      BackupRetentionPeriod: 0
+      VPCSecurityGroups:
+      - Ref: SGData
+  MyDBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet Group for RDS
+      SubnetIds:
+      - Ref: SubnetDataA
+      - Ref: SubnetDataB
+  SecretRDSInstanceAttachment:
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Properties:
+      SecretId:
+        Ref: MyRDSInstanceRotationSecret
+      TargetId:
+        Ref: MyDBInstance
+      TargetType: AWS::RDS::DBInstance
+  MySecretRotationSchedule:
+    Type: AWS::SecretsManager::RotationSchedule
+    DependsOn: SecretRDSInstanceAttachment
+    Properties:
+      SecretId:
+        Ref: MyRDSInstanceRotationSecret
+      HostedRotationLambda:
+        RotationType: MySQLSingleUser
+        RotationLambdaName:
+          Fn::Sub: SecretsManagerRotation
+        VpcSecurityGroupIds:
+          Ref: SGData
+        VpcSubnetIds:
+          Fn::Sub: ${SubnetDataA},${SubnetDataB}
+      RotationRules:
+        AutomaticallyAfterDays: 30
+  SampleBucket:
+    Type: AWS::S3::Bucket
+Outputs:
+  SampleBucket:
+    Value:
+      Ref: SampleBucket
+  MyRDSInstanceRotationSecret:
+    Value:
+      Ref: MyRDSInstanceRotationSecret
+  SampleEnvironment:
+    Value:
+      Fn::GetAtt:
+      - SampleEnvironment
+      - EndpointURL

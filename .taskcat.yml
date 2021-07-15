@@ -1,0 +1,7 @@
+project:
+  name: eb-sample-cft
+  regions:
+  - us-east-1
+tests:
+  default:
+    template: ./template.out.yaml
