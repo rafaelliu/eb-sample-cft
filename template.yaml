@@ -102,7 +102,7 @@ Resources:
         # Networking
         - Namespace: aws:ec2:vpc
           OptionName: AssociatePublicIpAddress
-          Value: "true" # TODO: set false and move app to a private subnet
+          Value: "false" # TODO: set false and move app to a private subnet
         - Namespace: aws:ec2:vpc
           OptionName: VPCId
           Value: !Ref VPCId
