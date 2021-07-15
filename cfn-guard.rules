@@ -1,0 +1,14 @@
+rule rds_with_secrets_manager {
+    let rds = Resources.*[ Type == "AWS::RDS::DBInstance" ]
+ 
+    let db_username = "{{resolve:secretsmanager:${MyRDSInstanceRotationSecret}::username}}"
+ 
+    %rds.Properties.MasterUsername == %db_username
+}
+
+rule no_pulic_ip {
+    let eb_environment = Resources.*[ Type == "AWS::ElasticBeanstalk::Environment" ]
+    let public_ip = %eb_environment.Properties.OptionSettings.*[ OptionName == "AssociatePublicIpAddress" ]
+ 
+    %public_ip.Value == "false"
+}
