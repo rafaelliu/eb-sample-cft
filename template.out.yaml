@@ -80,7 +80,7 @@ Resources:
           Ref: SGApp
       - Namespace: aws:ec2:vpc
         OptionName: AssociatePublicIpAddress
-        Value: 'true'
+        Value: 'false'
       - Namespace: aws:ec2:vpc
         OptionName: VPCId
         Value:
